@@ -24,3 +24,5 @@ Types of summarization: Extractive vs Abstractive
 
 
 # OUTPUT :
+
+![Image](https://github.com/user-attachments/assets/43d16034-13c9-436a-a2b9-167a099701a1)

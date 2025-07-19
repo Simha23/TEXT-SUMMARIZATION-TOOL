@@ -1,0 +1,42 @@
+import nltk
+nltk.download('punkt_tab')
+import nltk
+from nltk.tokenize import sent_tokenize, word_tokenize
+from collections import defaultdict
+import numpy as np
+
+
+def summarize_article(article, num_sentences=3):
+    # Tokenize the article into sentences
+    sentences = sent_tokenize(article)
+    
+    # Tokenize the article into words and create a frequency distribution
+    words = word_tokenize(article.lower())
+    freq_dist = defaultdict(int)
+    
+    for word in words:
+        if word.isalnum():  # Consider only alphanumeric words
+            freq_dist[word] += 1
+            
+    # Calculate sentence scores based on word frequencies
+    sentence_scores = defaultdict(int)
+    
+    for sentence in sentences:
+        for word in word_tokenize(sentence.lower()):
+            if word in freq_dist:
+                sentence_scores[sentence] += freq_dist[word]
+    
+    # Select the top N sentences
+    summarized_sentences = sorted(sentence_scores, key=sentence_scores.get, reverse=True)[:num_sentences]
+    
+    return ' '.join(summarized_sentences)
+
+# Example usage
+article_text = """
+Natural language processing (NLP) is a field of artificial intelligence that focuses on the interaction between computers and humans through natural language. 
+The ultimate objective of NLP is to enable computers to understand, interpret, and generate human language in a valuable way. 
+NLP combines computational linguistics with machine learning and deep learning models to process and analyze large amounts of natural language data.
+"""
+
+summary = summarize_article(article_text, num_sentences=4)
+print(summary)
